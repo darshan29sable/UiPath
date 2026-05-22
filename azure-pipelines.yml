@@ -1,0 +1,19 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: UiPathPack@6
+  inputs:
+    projectJsonPath: '$(Build.SourcesDirectory)'
+    versionType: 'AutoVersion'
+    outputPath: '$(Build.ArtifactStagingDirectory)\Output'
+    orchestratorConnection: 'Dev'
+
+- task: UiPathDeploy@6
+  inputs:
+    orchestratorConnection: 'Dev'
+    packagesPath: '$(Build.ArtifactStagingDirectory)\Output'
+    folderName: 'Shared'
