@@ -21,3 +21,9 @@ steps:
     packagesPath: '$(Build.ArtifactStagingDirectory)\Output'
     folderName: 'Shared'
     traceLevel: 'Verbose'
+- task: UiPathDeploy@6
+  inputs:
+    orchestratorConnection: 'Dev'
+    packagesPath: '$(Build.ArtifactStagingDirectory)\Output'
+    createProcess: false
+    folderName: 'IXP'
