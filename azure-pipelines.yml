@@ -5,6 +5,29 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
+
+# Validate Orchestrator Connection
+- powershell: |
+
+    $url = "https://staging.uipath.com/captainautomation/DefaultTenant/orchestrator_/odata/Folders"
+
+    Write-Host "Testing Orchestrator API Connection..."
+    Write-Host "URL: $url"
+
+    try {
+        $response = Invoke-WebRequest -Uri $url -Method Get -UseBasicParsing
+
+        Write-Host "Connection Successful"
+        Write-Host "Status Code:" $response.StatusCode
+    }
+    catch {
+        Write-Host "Connection Failed"
+        Write-Host $_.Exception.Message
+        throw
+    }
+
+  displayName: 'Validate Orchestrator Connection'
+
 - task: UiPathPack@6
   inputs:
     projectJsonPath: '$(Build.SourcesDirectory)'
