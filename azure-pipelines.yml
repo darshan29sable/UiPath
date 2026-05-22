@@ -14,7 +14,7 @@ steps:
     Write-Host $env:UIPATH_ORG_URL
 
     Write-Host "Tenant:"
-    Write-Host $env:UIPATH_TENANT
+    Write-Host $env:UIPATH_TENANTs
 
   displayName: 'Print UiPath Details'
 
@@ -30,7 +30,7 @@ steps:
 
 - task: UiPathDeploy@6
   inputs:
-    orchestratorConnection: 'Dev'
+    orchestratorConnection: 'Test'
     packagesPath: '$(Build.ArtifactStagingDirectory)\Output'
     createProcess: false
     folderName: 'Shared'
