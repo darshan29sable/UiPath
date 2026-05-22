@@ -10,15 +10,13 @@ steps:
 
 - powershell: |
 
-    Write-Host "Printing UiPath Connection Details"
-
     Write-Host "Organization URL:"
-    Write-Host "$(uipathOrganizationUrl)"
+    Write-Host "$(UIPATH_ORG_URL)"
 
-    Write-Host "Tenant Name:"
-    Write-Host "$(uipathTenant)"
+    Write-Host "Tenant:"
+    Write-Host "$(UIPATH_TENANT)"
 
-  displayName: 'Print UiPath Organization and Tenant'
+  displayName: 'Print UiPath Details'
 
 - task: UiPathPack@6
   inputs:
