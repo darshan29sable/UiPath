@@ -40,7 +40,7 @@ steps:
 
 - task: UiPathDeploy@6
   inputs:
-    orchestratorConnection: 'Dev'
+    orchestratorConnection: 'PROD'
     packagesPath: '$(Build.ArtifactStagingDirectory)\Output'
     createProcess: false
     folderName: 'IXP'
