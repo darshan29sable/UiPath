@@ -2,6 +2,25 @@ trigger:
 - main
 
 jobs:
+# Approval Job
+- job: Approval
+  dependsOn: Build
+  pool: server
+
+  steps:
+
+  - task: ManualValidation@0
+    timeoutInMinutes: 1440
+    inputs:
+      notifyUsers: 'darshan.sable@accelirate.com'
+      instructions: |
+        Please review the deployment request.
+
+        Approve → Continue deployment
+        Reject → Stop deployment
+
+      onTimeout: 'reject'
+
 
 # Build Job
 - job: Build
@@ -24,24 +43,6 @@ jobs:
     artifact: uipackage
 
 
-# Approval Job
-- job: Approval
-  dependsOn: Build
-  pool: server
-
-  steps:
-
-  - task: ManualValidation@0
-    timeoutInMinutes: 1440
-    inputs:
-      notifyUsers: 'darshan29sable@gmail.com'
-      instructions: |
-        Please review the deployment request.
-
-        Approve → Continue deployment
-        Reject → Stop deployment
-
-      onTimeout: 'reject'
 
 
 # Deploy Job
