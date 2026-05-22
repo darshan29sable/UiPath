@@ -23,4 +23,4 @@ steps:
     orchestratorConnection: 'PROD'
     packagesPath: '$(Build.ArtifactStagingDirectory)\Output'
     createProcess: false
-    folderName: 'IXP'
+    folderName: 'Shared'
