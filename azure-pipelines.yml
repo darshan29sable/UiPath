@@ -10,10 +10,14 @@ steps:
     projectJsonPath: '$(Build.SourcesDirectory)'
     versionType: 'AutoVersion'
     outputPath: '$(Build.ArtifactStagingDirectory)\Output'
-    orchestratorConnection: 'Dev'
+
+- powershell: |
+    Get-ChildItem "$(Build.ArtifactStagingDirectory)\Output"
+  displayName: 'Verify Package'
 
 - task: UiPathDeploy@6
   inputs:
-    orchestratorConnection: 'Dev'
+    serviceConnection: 'Dev'
     packagesPath: '$(Build.ArtifactStagingDirectory)\Output'
-    folderName: 'IXP'
+    folderName: 'Shared'
+    traceLevel: 'Verbose'
