@@ -16,4 +16,4 @@ steps:
   inputs:
     orchestratorConnection: 'Dev'
     packagesPath: '$(Build.ArtifactStagingDirectory)\Output'
-    folderName: 'Shared'
+    folderName: 'IXP'
