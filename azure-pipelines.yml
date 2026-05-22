@@ -11,10 +11,10 @@ steps:
 - powershell: |
 
     Write-Host "Organization URL:"
-    Write-Host "$(UIPATH_ORG_URL)"
+    Write-Host $env:UIPATH_ORG_URL
 
     Write-Host "Tenant:"
-    Write-Host "$(UIPATH_TENANT)"
+    Write-Host $env:UIPATH_TENANT
 
   displayName: 'Print UiPath Details'
 
