@@ -1,27 +1,64 @@
 trigger:
 - main
 
-pool:
-  vmImage: 'windows-latest'
+jobs:
 
-steps:
+# Build Job
+- job: Build
+  pool:
+    vmImage: 'windows-latest'
 
-# Validate Orchestrator Connection.
+  steps:
+
+  - task: UiPathPack@6
+    inputs:
+      projectJsonPath: '$(Build.SourcesDirectory)'
+      versionType: 'AutoVersion'
+      outputPath: '$(Build.ArtifactStagingDirectory)\Output'
+
+  - powershell: |
+      Get-ChildItem "$(Build.ArtifactStagingDirectory)\Output"
+    displayName: 'Verify Package'
+
+  - publish: $(Build.ArtifactStagingDirectory)\Output
+    artifact: uipackage
 
 
-- task: UiPathPack@6
-  inputs:
-    projectJsonPath: '$(Build.SourcesDirectory)'
-    versionType: 'AutoVersion'
-    outputPath: '$(Build.ArtifactStagingDirectory)\Output'
+# Approval Job
+- job: Approval
+  dependsOn: Build
+  pool: server
 
-- powershell: |
-    Get-ChildItem "$(Build.ArtifactStagingDirectory)\Output"
-  displayName: 'Verify Package'
+  steps:
 
-- task: UiPathDeploy@6
-  inputs:
-    orchestratorConnection: 'Test'
-    packagesPath: '$(Build.ArtifactStagingDirectory)\Output'
-    createProcess: false
-    folderName: 'Shared'
+  - task: ManualValidation@0
+    timeoutInMinutes: 1440
+    inputs:
+      notifyUsers: 'darshan29sable@gmail.com'
+      instructions: |
+        Please review the deployment request.
+
+        Approve → Continue deployment
+        Reject → Stop deployment
+
+      onTimeout: 'reject'
+
+
+# Deploy Job
+- job: Deploy
+  dependsOn: Approval
+
+  pool:
+    vmImage: 'windows-latest'
+
+  steps:
+
+  - download: current
+    artifact: uipackage
+
+  - task: UiPathDeploy@6
+    inputs:
+      orchestratorConnection: 'Test'
+      packagesPath: '$(Pipeline.Workspace)\uipackage'
+      folderName: 'Shared'
+      traceLevel: 'Verbose'
