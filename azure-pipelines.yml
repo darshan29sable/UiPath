@@ -6,7 +6,7 @@ pool:
 
 steps:
 
-# Validate Orchestrator Connection
+# Validate Orchestrator Connection.
 
 
 - task: UiPathPack@6
