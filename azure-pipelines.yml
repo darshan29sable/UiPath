@@ -8,6 +8,18 @@ steps:
 
 # Validate Orchestrator Connection
 
+- powershell: |
+
+    Write-Host "Printing UiPath Connection Details"
+
+    Write-Host "Organization URL:"
+    Write-Host "$(uipathOrganizationUrl)"
+
+    Write-Host "Tenant Name:"
+    Write-Host "$(uipathTenant)"
+
+  displayName: 'Print UiPath Organization and Tenant'
+
 - task: UiPathPack@6
   inputs:
     projectJsonPath: '$(Build.SourcesDirectory)'
