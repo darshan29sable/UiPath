@@ -8,15 +8,6 @@ steps:
 
 # Validate Orchestrator Connection
 
-- powershell: |
-
-    Write-Host "Organization URL:"
-    Write-Host $env:UIPATH_ORG_URL
-
-    Write-Host "Tenant:"
-    Write-Host $env:UIPATH_TENANTs
-
-  displayName: 'Print UiPath Details'
 
 - task: UiPathPack@6
   inputs:
